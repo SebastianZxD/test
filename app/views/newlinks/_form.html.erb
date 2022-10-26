@@ -1,0 +1,28 @@
+<%= form_with(model: newlink) do |form| %>
+  <% if newlink.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(newlink.errors.count, "error") %> prohibited this newlink from being saved:</h2>
+
+      <ul>
+        <% newlink.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <!-- <div>
+    <%= form.label :url, style: "display: block" %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div>
+    <%= form.label :slug, style: "display: block" %>
+    <%= form.text_field :slug %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div> -->
+  <%= form.text_field :url, class: "form-control", placeholder: "Enter URL...", required: true %> <br>
+  <%= form.submit 'ShOrTit', class:"btn btn-primary" %>
+<% end %>

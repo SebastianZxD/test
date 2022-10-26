@@ -1,0 +1,12 @@
+<div id="<%= dom_id newlink %>">
+  <p>
+    <strong>Url:</strong>
+    <%= newlink.url %>
+  </p>
+
+  <p>
+    <strong>This is your new URL:</strong>
+    <%= link_to newlink.slug, "#{newlink.url}" %>
+  </p>
+
+</div>

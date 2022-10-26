@@ -1,0 +1,9 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @newlink %>
+
+<div>
+  <%= link_to "Back to newlinks", newlinks_path %>
+
+  <%= button_to "Destroy this newlink", @newlink, method: :delete %>
+</div>
