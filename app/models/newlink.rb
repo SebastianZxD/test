@@ -5,10 +5,14 @@ class Newlink < ApplicationRecord
   validates_length_of :url, within: 3..255, on: :create, message: "too long"
   validates_length_of :slug, within: 3..255, on: :create, message: "too long"
   before_validation :encrypt, :on => :create
-  
+  before_validation :expiration_date, :on => :create	
+
 	def encrypt
 		self.slug = SecureRandom.alphanumeric(5) if self.slug.nil? || self.slug.empty?
 	  true
 	end
 
+	def expiration_date
+		self.expire = 15.days.from_now
+	end
 end

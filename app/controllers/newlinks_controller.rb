@@ -1,6 +1,6 @@
 class NewlinksController < ApplicationController
   before_action :set_newlink, only: %i[ show edit update destroy ]
-
+  before_action :check_expired
   # GET /newlinks or /newlinks.json
   def index
     @newlinks = Newlink.all
@@ -8,6 +8,25 @@ class NewlinksController < ApplicationController
 
   # GET /newlinks/1 or /newlinks/1.json
   def show
+    begin
+      response = HTTParty.get(@newlink.url, timeout: 5)
+    rescue Net::ReadTimeout
+      begin
+        response = HTTParty.get(@newlink.url, timeout: 5)
+      rescue Net::ReadTimeout
+        @refined_title = 'Sadly your webpage is down, but the title will refresh when its back up'
+      else
+        extracted_title = response.body.match(/<title>(.*?)<*title>/)
+        extracted_title[1].slice!("</")
+        @refined_title = extracted_title[1]
+      end
+    rescue OpenSSL::SSL::SSLError
+      @refined_title = 'I have no idea whats going on with that webpage of yours.. but this is not the title'
+    else
+      extracted_title = response.body.match(/<title>(.*?)<*title>/)
+      extracted_title[1].slice!("</")
+      @refined_title = extracted_title[1]
+    end
   end
 
   # GET /newlinks/new
@@ -65,6 +84,16 @@ class NewlinksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def newlink_params
-      params.require(:newlink).permit(:url, :slug)
+      params.require(:newlink).permit(:url, :slug, :expire)
+    end
+
+    def check_expired
+      @newlinks = Newlink.all
+
+      @newlinks.each do |link|
+        if !link.expire.future?
+        link.destroy
+        end
+      end 
     end
 end

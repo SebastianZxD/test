@@ -1,12 +1,17 @@
 <div id="<%= dom_id newlink %>">
+  <h1><%= @refined_title %></h1>
   <p>
     <strong>Url:</strong>
     <%= newlink.url %>
   </p>
-
   <p>
     <strong>This is your new URL:</strong>
     <%= link_to newlink.slug, "#{newlink.url}" %>
+  </p>
+
+  <p>
+    <strong>Your link will expire on the following date and time:</strong> <br>
+    <%= newlink.expire %>
   </p>
 
 </div>

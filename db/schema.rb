@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_26_224419) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_26_235009) do
   create_table "links", force: :cascade do |t|
     t.string "url"
     t.string "slug"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_26_224419) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "expire"
   end
 
 end
